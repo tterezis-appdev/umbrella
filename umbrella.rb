@@ -1,3 +1,13 @@
+require "open-uri"
+require "json"
+
+line_width = 40
+
+puts "="*line_width
+puts "Will you need an umbrella today?".center(line_width)
+puts "="*line_width
+
+
 p "Where are you located?"
 
 #user_location=gets.chomp
@@ -10,11 +20,7 @@ p user_location
 
 gmaps_api_endpoint="https://maps.googleapis.com/maps/api/geocode/json?address=#{user_location}&key=#{gmaps_token}"
 
-require "open-uri"
-
 raw_response= URI.open(gmaps_api_endpoint).read
-
-require "json"
 
 parsed_response=JSON.parse(raw_response)
 
