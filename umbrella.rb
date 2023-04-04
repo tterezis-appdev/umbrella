@@ -2,13 +2,13 @@ p "Where are you located?"
 
 #user_location=gets.chomp
 
-user_location="Athens, Greece"
+user_location="Feres, Greece"
 
-gmaps_taken=ENV.fetch("GMAPS_KEY")
+gmaps_token=ENV.fetch("GMAPS_KEY")
 
 p user_location
 
-gmaps_api_endpoint="https://maps.googleapis.com/maps/api/geocode/json?address=#{user_location}&key=AIzaSyB92cYxPcYqgjwBJfWlwDQw_7yjuyU3tpA"
+gmaps_api_endpoint="https://maps.googleapis.com/maps/api/geocode/json?address=#{user_location}&key=#{gmaps_token}"
 
 require "open-uri"
 
@@ -33,7 +33,12 @@ longitude=loc.fetch("lng")
   p longitude
   
 #Interact with Pirate Weather API
-pweather_api_endpoint="https://api.pirateweather.net/forecast/3RrQrvLmiUayQ84JSxL8D2aXw99yRKlx1N4qFDUE/41.8887,-87.6355"
+pweather_api_endpoint="https://api.pirateweather.net/forecast/#{ENV.fetch("PIRATE_WEATHER_KEY")}/#{latitude},#{longitude}"
 
 #Assemble correct endpoint
 #Read it, parse it, and fetch current temp
+raw_pirate_data=URI.open(pweather_api_endpoint).read
+
+parsed_raw_pirate_data=JSON.parse(raw_pirate_data)
+
+p "It is currently #{parsed_raw_pirate_data.fetch("currently").fetch("temperature")}°F."
